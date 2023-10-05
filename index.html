@@ -113,28 +113,25 @@
             $('#postingbox').toggle();
         })
 
-        $(document).ready(function () {
-            let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";
-            fetch(url).then(res => res.json()).then(data => {
-                let temp = data['temp'];
-                if (temp > 20) {
-                    temp = `<span id="temperature">더워요</span>`;
-                } else {
-                    temp = `<span id="temperature">안더워요</span>`;
-                }
-                $('#temperature').append(temp);
-            })
+        let url = "http://spartacodingclub.shop/sparta_api/weather/seoul";
+        fetch(url).then(res => res.json()).then(data => {
+            let temp = data['temp'];
+            if (temp > 20) {
+                temp = `<span id="temperature">더워요</span>`;
+            } else {
+                temp = `<span id="temperature">안더워요</span>`;
+            }
+            $('#temperature').append(temp);
         })
 
-        function openclose() {
-            $('#postingbox').toggle();
-        }
-
-        function makeCard() {
-            let image = $('#image').val();
-            let title = $('#title').val();
-            let comment = $('#comment').val();
-            let star = $('#star').val();
+        let docs = await getDocs(collection(db, "movies"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+            
+            let image = row['image'];
+            let title = row['title'];
+            let comment = row['comment'];
+            let star = row['star'];
 
             let temp_html = `
             <div class="col">
@@ -148,10 +145,10 @@
                     </div>
                 </div>
             </div>`;
-
             $('#card').append(temp_html);
 
-        }
+        });
+
     </script>
 </head>
 
